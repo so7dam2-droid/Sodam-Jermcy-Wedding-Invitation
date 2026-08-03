@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Wedding Invitation</title>
+    <!-- EmailJS SDK -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <style>
+        /* --------------------------------------------------
+           [다국어 커스텀 폰트 정의]
+        -------------------------------------------------- */
+        @font-face {
+            font-family: 'KoreanFont';
+            src: url('font-ko.woff2') format('woff2'),
+                 url('font-ko.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+            font-display: swap;
+            unicode-range: U+AC00-D7A3, U+1100-11FF, U+3130-318F, U+A960-A97F, U+D7B0-D7FF;
+            size-adjust: 150%;
+        }
+
+        @font-face {
+            font-family: 'ChineseFont';
+            src: url('font-zh.woff2') format('woff2'),
+                 url('font-zh.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+            font-display: swap;
+            unicode-range: U+4E00-9FFF, U+3400-4DBF, U+20000-2A6DF, U+F900-FAFF;
+            size-adjust: 85%;
+        }
+
+        @font-face {
+            font-family: 'EnglishFont';
+            src: url('font-en.woff2') format('woff2'),
+                 url('font-en.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+            font-display: swap;
+            unicode-range: U+0000-007F; /* 알파벳 및 기본 기호 */
+            size-adjust: 85%;            /* 英文字体缩小至 85% */
+        }
+
+        /* --------------------------------------------------
+           [기본 리셋 및 모바일 최적화 (滚动修复修正)]
+        -------------------------------------------------- */
+        * { 
+            box-sizing: border-box; 
+            margin: 0; 
+            padding: 0; 
+            font-family: 'KoreanFont', 'ChineseFont', 'EnglishFont', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; 
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        html, body {
+            width: 100%;
+            overflow-x: hidden;
+            overflow-y: auto;                  /* 👈 修复：确保纵向正常滚动 */
+            -webkit-overflow-scrolling: touch; /* 👈 修复：iOS 顺畅滚动体验 */
+        }
+
+        body { 
+            background-color: #F5F3EF; 
+            color: #111111; 
+            line-height: 1.6; 
+            -webkit-font-smoothing: antialiased; 
+            -moz-osx-font-smoothing: grayscale;
+            letter-spacing: -0.02em; 
+            word-break: keep-all; 
+        }
+        
+        .container { 
+            max-width: 480px; 
+            margin: 0 auto; 
+            background: #FAF9F6; 
+            min-height: 100vh; 
+            padding-bottom: 100px; 
+            box-shadow: 0 0 35px rgba(0,0,0,0.05); 
+            position: relative; 
+        }
+
+        /* --------------------------------------------------
+           [BGM floating 버튼]
+        -------------------------------------------------- */
+        .bgm-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 999;
+            width: 46px;
+            height: 46px;
+            background: rgba(250, 249, 246, 0.85);
+            -webkit-backdrop-filter: blur(12px);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(168, 139, 116, 0.4);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            cursor: pointer;
+            box-shadow: 0 6px 16px rgba(168, 139, 116, 0.15);
+            color: #A88B74;
+            transition: transform 0.2s ease, background-color 0.2s ease;
+        }
+        .bgm-btn:active { transform: scale(0.92); }
+        .bgm-btn.playing { animation: spin 5s linear infinite; }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+
+        /* --------------------------------------------------
+           [상단 Sticky 언어 바 & 버튼 크기 통일]
+        -------------------------------------------------- */
+        .lang-bar { 
+            position: sticky; 
+            top: 0; 
+            background: rgba(250, 249, 246, 0.90); 
+            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px); 
+            padding: 14px 16px; 
+            text-align: center; 
+            border-bottom: 1px solid rgba(234, 230, 223, 0.8); 
+            z-index: 100; 
+        }
+
+        /* 👈 修改：固定按键尺寸，保持椭圆统一 */
+        .lang-btn { 
+            background: none; 
+            border: 1px solid #D0C9BD; 
+            width: 88px;             /* 统一固定宽度 */
+            height: 32px;            /* 统一固定高度 */
+            padding: 0;              /* 取消可变内边距 */
+            display: inline-flex;    /* 居中对齐 */
+            align-items: center;
+            justify-content: center;
+            border-radius: 20px;     /* 保持完整胶囊/椭圆外形 */
+            font-size: 13.5px; 
+            margin: 0 3px; 
+            color: #707070; 
+            cursor: pointer; 
+            transition: all 0.25s ease; 
+            letter-spacing: -0.01em; 
+        }
+
+        .lang-btn.active { 
+            background: #A88B74; 
+            color: #ffffff; 
+            border-color: #A88B74; 
+            font-weight: 500; 
+            box-shadow: 0 2px 8px rgba(168, 139, 116, 0.3);
+        }
+
+        /* --------------------------------------------------
+           [최상단 GIF / Video 히어로 배너]
+        -------------------------------------------------- */
+        .hero-gif-container { 
+            width: 58%; 
+            max-width: 250px;
+            margin: 32px auto 0;
+            border-radius: 16px;
+            overflow: hidden; 
+            background: #EAE6DF; 
+            box-shadow: 0 8px 20px rgba(0,0,0,0.04);
+        }
+        .hero-gif-container img, 
+        .hero-gif-container video { 
+            width: 100%; 
+            height: auto; 
+            display: block; 
+            object-fit: cover; 
+        }
+
+        /* --------------------------------------------------
+           [섹션 공통 및 스크롤 페이드인 효과]
+        -------------------------------------------------- */
+        .section { 
+            padding: 55px 24px 20px; 
+            text-align: center; 
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        .section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .section-title { 
+            font-size: 13.5px; 
+            font-weight: 600; 
+            letter-spacing: 2px; 
+            color: #A88B74; 
+            margin-bottom: 32px; 
+            text-transform: uppercase; 
+        }
+        
+        /* --------------------------------------------------
+           [메인 타이틀 히어로 섹션]
+        -------------------------------------------------- */
+        .hero { 
+            padding: 35px 24px 45px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .hero-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .hero h1 { 
+            font-size: 26px; 
+            font-weight: 400; 
+            letter-spacing: -0.02em; 
+            margin-bottom: 10px; 
+            color: #111111; 
+            line-height: 1.3; 
+        }
+        .hero p { 
+            font-size: 15px; 
+            color: #666666; 
+            font-weight: 300; 
+            letter-spacing: -0.02em; 
+            line-height: 1.4; 
+            margin: 0; 
+        }
+
+        /* 초대 포스터 & 편지 카드 */
+        .welcome-card, .final-message-card { 
+            background: transparent; 
+            padding: 0; 
+            overflow: hidden; 
+            border-radius: 14px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.04);
+        }
+        .welcome-card img, .final-message-card img { 
+            width: 100%; 
+            height: auto; 
+            border-radius: 14px; 
+            display: block; 
+        }
+
+        /* --------------------------------------------------
+           [Dress Code & Weather Tips Box]
+        -------------------------------------------------- */
+        .dress-code-box { 
+            background: #FFFFFF; 
+            border: 1px solid #EAE6DF; 
+            border-radius: 18px; 
+            padding: 36px 22px; 
+            text-align: left; 
+            box-shadow: 0 4px 20px rgba(0,0,0,0.02);
+        }
+        .dress-main-txt { 
+            font-size: 15.5px; 
+            color: #111111; 
+            font-weight: 500; 
+            margin-bottom: 24px; 
+            line-height: 1.7; 
+            text-align: center; 
+            letter-spacing: -0.02em; 
+        }
+        .color-palette { 
+            display: flex; 
+            justify-content: center; 
+            gap: 10px; 
+            margin: 26px 0 30px; 
+            flex-wrap: wrap; 
+        }
+        .color-swatch { 
+            width: 44px; 
+            height: 44px; 
+            border-radius: 50%; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            font-size: 9.5px; 
+            color: #111; 
+            border: 1px solid rgba(0,0,0,0.08); 
+            font-weight: 500; 
+            box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+        }
+        
+        .weather-tip-box { 
+            background: #FBF9F7; 
+            border-left: 3px solid #A88B74; 
+            padding: 18px 18px; 
+            border-radius: 0 12px 12px 0; 
+            margin-top: 26px; 
+        }
+        .weather-tip-title { 
+            font-size: 14.5px; 
+            color: #A88B74; 
+            font-weight: 600; 
+            margin-bottom: 8px; 
+            display: flex; 
+            align-items: center; 
+            gap: 4px; 
+            letter-spacing: -0.02em; 
+        }
+        .weather-tip-desc { 
+            font-size: 14px; 
+            color: #666666; 
+            line-height: 1.65; 
+            font-weight: 300; 
+            letter-spacing: -0.02em; 
+        }
+
+        /* --------------------------------------------------
+           [Wedding Details]
+        -------------------------------------------------- */
+        .info-card { 
+            background: #FFFFFF; 
+            border: 1px solid #EAE6DF; 
+            padding: 36px 22px; 
+            border-radius: 18px; 
+            text-align: center; 
+            box-shadow: 0 4px 20px rgba(0,0,0,0.02);
+        }
+        .info-item { margin-bottom: 30px; }
+        .info-item:last-child { margin-bottom: 0; }
+        .info-label { 
+            font-size: 12px; 
+            color: #A88B74; 
+            text-transform: uppercase; 
+            letter-spacing: 1.5px; 
+            font-weight: 600; 
+        }
+        .info-val { 
+            font-size: 17px; 
+            color: #111111; 
+            font-weight: 500; 
+            margin-top: 8px; 
+            letter-spacing: -0.02em; 
+        }
+        .info-subnotice { 
+            font-size: 13.5px; 
+            color: #666666; 
+            margin-top: 8px; 
+            font-weight: 300; 
+            line-height: 1.6; 
+            letter-spacing: -0.02em; 
+        }
+
+        /* --------------------------------------------------
+           [갤러리 슬라이더]
+        -------------------------------------------------- */
+        .gallery-container { position: relative; margin-top: 10px; }
+        .gallery-slider { 
+            display: flex; 
+            overflow-x: auto; 
+            scroll-snap-type: x mandatory; 
+            gap: 14px; 
+            -webkit-overflow-scrolling: touch; 
+            border-radius: 16px; 
+            scrollbar-width: none; 
+            -ms-overflow-style: none;
+        }
+        .gallery-slider::-webkit-scrollbar { display: none; }
+        .gallery-slider .slide { 
+            flex: 0 0 100%; 
+            scroll-snap-align: start; 
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.03);
+        }
+        .gallery-slider img { 
+            width: 100%; 
+            height: auto; 
+            border-radius: 16px; 
+            display: block; 
+            object-fit: cover; 
+        }
+        .swipe-hint { 
+            font-size: 13.5px; 
+            color: #777777; 
+            margin-top: 16px; 
+            font-weight: 300; 
+            letter-spacing: -0.01em; 
+        }
+
+        /* --------------------------------------------------
+           [RSVP Form]
+        -------------------------------------------------- */
+        .rsvp-form { 
+            display: flex; 
+            flex-direction: column; 
+            gap: 22px; 
+            text-align: left; 
+            margin-top: 10px; 
+        }
+        .form-group-label { 
+            font-size: 13.5px; 
+            color: #555555; 
+            margin-bottom: 8px; 
+            margin-left: 2px; 
+            font-weight: 500; 
+            display: block; 
+            letter-spacing: -0.02em; 
+        }
+        .form-control { 
+            width: 100%; 
+            padding: 15px; 
+            border: 1px solid #E3DFD7; 
+            border-radius: 12px; 
+            font-size: 14.5px; 
+            background: #FFFFFF; 
+            color: #111111; 
+            outline: none; 
+            transition: border-color 0.25s, box-shadow 0.25s; 
+            line-height: 1.5; 
+            letter-spacing: -0.02em; 
+        }
+        .form-control:focus { 
+            border-color: #A88B74; 
+            box-shadow: 0 0 0 3px rgba(168, 139, 116, 0.12);
+        }
+        .submit-btn { 
+            width: 100%; 
+            padding: 16px; 
+            background: #A88B74; 
+            color: #FFFFFF; 
+            border: none; 
+            border-radius: 12px; 
+            font-size: 15px; 
+            font-weight: 500; 
+            cursor: pointer; 
+            box-shadow: 0 4px 14px rgba(168, 139, 116, 0.28); 
+            letter-spacing: -0.01em; 
+            transition: background-color 0.2s, transform 0.1s;
+        }
+        .submit-btn:active {
+            transform: scale(0.98);
+            background-color: #967963;
+        }
+
+        /* --------------------------------------------------
+           [Guidebook PDF Section]
+        -------------------------------------------------- */
+        .guide-box { 
+            background: #332E2A; 
+            color: #FFFFFF; 
+            border-radius: 18px; 
+            padding: 32px 22px; 
+            margin-top: 40px; 
+            text-align: center; 
+            box-shadow: 0 6px 20px rgba(0,0,0,0.06);
+        }
+        .guide-box p { 
+            font-size: 14px; 
+            color: #D0C9BD; 
+            line-height: 1.65; 
+            font-weight: 300; 
+            letter-spacing: -0.02em; 
+        }
+        .guide-btn { 
+            display: inline-block; 
+            width: 100%; 
+            padding: 15px; 
+            background: #A88B74; 
+            color: #FFFFFF; 
+            border-radius: 12px; 
+            font-size: 14.5px; 
+            text-decoration: none; 
+            margin-top: 18px; 
+            font-weight: 500; 
+            letter-spacing: -0.01em; 
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            transition: background-color 0.2s;
+        }
+        .guide-btn:active { background-color: #967963; }
+    </style>
+</head>
+<body onclick="playAudioOnce()">
+
+<!-- BGM -->
+<audio id="bgm" loop preload="auto">
+    <source src="music.mp3" type="audio/mpeg">
+</audio>
+
+<button class="bgm-btn" id="bgmBtn" aria-label="Toggle BGM" onclick="toggleBGM(event)">🎵</button>
+
+<div class="container">
+
+    <!-- 1. 언어 선택 Bar -->
+    <div class="lang-bar">
+        <button class="lang-btn active" onclick="switchLang('zh', this)">中文</button>
+        <button class="lang-btn" onclick="switchLang('en', this)">English</button>
+        <button class="lang-btn" onclick="switchLang('ko', this)">한국어</button>
+    </div>
+
+    <!-- 2. 최상단 GIF/비디오 배너 -->
+    <div class="hero-gif-container">
+        <img src="hero.gif" alt="Wedding Hero GIF" onerror="this.style.display='none'; document.getElementById('heroVideo').style.display='block';">
+        <video id="heroVideo" autoplay loop muted playsinline style="display:none;">
+            <source src="video.mp4" type="video/mp4">
+        </video>
+    </div>
+
+    <!-- 3. 메인 타이틀 -->
+    <div class="section hero">
+        <div class="hero-content">
+            <h1 id="hero-title">罗桓泽 & 张昭澹</h1>
+            <p id="hero-subtitle">诚挚邀请您参加我们的婚礼</p>
+        </div>
+    </div>
+
+    <!-- 4. 메인 초대 포스터 -->
+    <div class="section" style="padding-top: 10px; padding-bottom: 20px;">
+        <div class="welcome-card">
+            <img src="photo7.jpg" alt="Welcome Photo">
+        </div>
+    </div>
+
+    <!-- 5. 게스트에게 드리는 편지 -->
+    <div class="section" style="padding-top: 0px;">
+        <div class="final-message-card">
+            <img id="final-msg-img" src="photo8.jpg" alt="Final Heartfelt Message">
+        </div>
+    </div>
+
+    <!-- 6. Dress Code & Weather TIPS -->
+    <div class="section">
+        <div class="section-title" id="title-dress">— DRESS CODE & TIPS —</div>
+        <div class="dress-code-box">
+            <p class="dress-main-txt" id="desc-dress">米色 / 香槟色 / 黑白 / 浅色套装<br><span style="font-size: 13.5px; color: #666666; font-weight: 300;">（一切以您的舒适与喜爱为主）</span></p>
+            
+            <div class="color-palette">
+                <div class="color-swatch" style="background: #E8DCCB;">Beige</div>
+                <div class="color-swatch" style="background: #F3E5AB;">Champagne</div>
+                <div class="color-swatch" style="background: #FFFFFF; border: 1px solid #DDD;">White</div>
+                <div class="color-swatch" style="background: #111111; color: #FFF;">Black</div>
+                <div class="color-swatch" style="background: #E2E8E4;">Pastel</div>
+            </div>
+
+            <div class="weather-tip-box">
+                <div class="weather-tip-title" id="tip-title">💡 济州岛三月末出行贴士</div>
+                <div class="weather-tip-desc" id="tip-desc">三月末的济州岛风暖花开，但海风微凉。建议您准备一件舒适的外套、风衣或精致的围巾，既保暖又便于拍照搭配。</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 7. Wedding Details -->
+    <div class="section">
+        <div class="section-title" id="title-details">— WEDDING DETAILS —</div>
+        <div class="info-card">
+            <div class="info-item">
+                <div class="info-label" id="lbl-date">DATE & TIME / 时间</div>
+                <div class="info-val" id="val-date">2027年 3月 27日 星期六</div>
+                <div class="info-subnotice" id="sub-hotel-notice">※ 酒店行程为 3月26日–28日，建议您提前一天（26日）抵达，享受一段悠闲的周边时光。</div>
+            </div>
+            <div class="info-item">
+                <div class="info-label" id="lbl-location">LOCATION / 地点</div>
+                <div class="info-val" id="val-location">韩国 · 济州岛 (Jeju Island)</div>
+                <div class="info-subnotice" id="sub-notice">※ 具体的婚礼详细地址与接驳安排，后续将单独为您联系通知。</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 8. 사진집 (Photo 1~4 슬라이드) -->
+    <div class="section">
+        <div class="section-title" id="title-gallery">— OUR MOMENTS —</div>
+        <div class="gallery-container">
+            <div class="gallery-slider">
+                <div class="slide"><img src="photo1.jpg" alt="Photo 1"></div>
+                <div class="slide"><img src="photo2.jpg" alt="Photo 2"></div>
+                <div class="slide"><img src="photo3.jpg" alt="Photo 3"></div>
+                <div class="slide"><img src="photo4.jpg" alt="Photo 4"></div>
+            </div>
+            <div class="swipe-hint" id="swipe-hint">← 左右滑动查看照片 / Swipe →</div>
+        </div>
+    </div>
+
+    <!-- 9. RSVP & Guidebook -->
+    <div class="section">
+        <div class="section-title" id="title-rsvp">— RSVP —</div>
+        <form class="rsvp-form" id="rsvpForm" onsubmit="handleRSVP(event)">
+            <div>
+                <label class="form-group-label" id="lbl-name">主回复人姓名 *</label>
+                <input type="text" id="guestName" class="form-control" placeholder="您的姓名 Name" required>
+            </div>
+            <div>
+                <label class="form-group-label" id="lbl-companions">同行者姓名及备注事项 *</label>
+                <textarea id="guestMsg" class="form-control" rows="3" placeholder="请写下同行者的姓名，以及其他需要我们注意的备注事项（如行程、饮食偏好等）" required></textarea>
+            </div>
+            <button type="submit" class="submit-btn" id="btn-submit">提交回复 Send RSVP</button>
+        </form>
+
+        <div class="guide-box">
+            <p id="txt-guide">为您准备了 3月26日-28日 Maison Glad 酒店住宿安排与周边吃喝玩乐指南</p>
+            <a href="jeju_guide.pdf" download class="guide-btn" id="btn-guide">📥 济州岛指南 & 酒店导览 (PDF)</a>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    /* 스크롤 시 부드러운 페이드인 애니메이션 (IntersectionObserver) */
+    document.addEventListener("DOMContentLoaded", () => {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.section').forEach(sec => observer.observe(sec));
+    });
+
+    const bgm = document.getElementById('bgm');
+    const bgmBtn = document.getElementById('bgmBtn');
+    let isPlayed = false;
+
+    function playAudioOnce() {
+        if (!isPlayed) {
+            bgm.play().then(() => {
+                isPlayed = true;
+                bgmBtn.classList.add('playing');
+            }).catch(err => console.log("Audio waiting for user interaction:", err));
+        }
+    }
+
+    function toggleBGM(e) {
+        e.stopPropagation();
+        if (bgm.paused) {
+            bgm.play().then(() => {
+                isPlayed = true;
+                bgmBtn.classList.add('playing');
+            });
+        } else {
+            bgm.pause();
+            bgmBtn.classList.remove('playing');
+        }
+    }
+
+    const i18n = {
+        zh: {
+            heroTitle: "罗桓泽 & 张昭澹",
+            heroSub: "诚挚邀请您参加我们的婚礼",
+            titleDress: "— 着装推荐与温馨提示 —",
+            descDress: "米色 / 香槟色 / 黑白 / 浅色套装<br><span style='font-size: 13.5px; color: #666666; font-weight: 300;'>（一切以您的舒适与喜爱为主）</span>",
+            tipTitle: "💡 济州岛三月末出行贴士",
+            tipDesc: "三月末的济州岛风暖花开，但海风微凉。建议您准备一件舒适的外套、风衣或精致的围巾，既保暖又便于拍照搭配。",
+            titleDetails: "— 婚礼信息 —",
+            lblDate: "时间", valDate: "2027年 3月 27日 星期六",
+            subHotelNotice: "※ 酒店行程为 3月26日–28日，建议您提前一天（26日）抵达，享受一段悠闲的周边时光。",
+            lblLoc: "地点", valLoc: "韩国 · 济州岛 (Jeju Island)",
+            subNotice: "※ 具体的婚礼详细地址与接驳安排，后续将单独为您联系通知。",
+            finalMsgImg: "photo8.jpg",
+            titleGallery: "— 精彩瞬间 —",
+            swipeHint: "← 左右滑动查看照片 →",
+            titleRsvp: "— 出席回复 —",
+            lblName: "主回复人姓名 Name *",
+            lblCompanions: "同行者姓名及备注事项 *",
+            placeholderCompanions: "请写下同行者的姓名，以及其他需要我们注意的备注事项（如行程、饮食偏好等）",
+            btnSubmit: "提交回复", sending: "发送中...",
+            success: "回复已成功发送！非常期待在济州岛与您相聚。", fail: "发送失败，请稍后重试。",
+            txtGuide: "为您准备了 3月26日-28日 Maison Glad 酒店住宿安排与周边吃喝玩乐指南",
+            btnGuide: "📥 获取济州岛旅行指南 (PDF)"
+        },
+        en: {
+            heroTitle: "Jermcy & Sodam",
+            heroSub: "Joyfully invite you to celebrate their wedding",
+            titleDress: "— DRESS CODE & TIPS —",
+            descDress: "Beige / Champagne / Black & White / Pastel Suit<br><span style='font-size: 13.5px; color: #666666; font-weight: 300;'>(Please wear whatever makes you feel most comfortable)</span>",
+            tipTitle: "💡 Late March Jeju Travel Tip",
+            tipDesc: "Late March in Jeju is lovely with spring blooms, though sea breezes can be cool. We recommend bringing a light coat, trench jacket, or a cozy scarf.",
+            titleDetails: "— WEDDING DETAILS —",
+            lblDate: "DATE & TIME", valDate: "Saturday, March 27, 2027",
+            subHotelNotice: "※ Hotel accommodations are provided from March 26 to 28. We recommend arriving a day early on the 26th to relax and explore nearby.",
+            lblLoc: "LOCATION", valLoc: "Jeju Island, Korea",
+            subNotice: "※ Detailed venue address and transport arrangements will be shared with you individually soon.",
+            finalMsgImg: "photo9.jpg",
+            titleGallery: "— OUR MOMENTS —",
+            swipeHint: "← Swipe to view photos →",
+            titleRsvp: "— RSVP —",
+            lblName: "Primary Guest Name *",
+            lblCompanions: "Companions' Names & Notes *",
+            placeholderCompanions: "Please write down the names of companions joining you, and any special notes (e.g., travel schedule, dietary needs).",
+            btnSubmit: "Submit RSVP", sending: "Sending...",
+            success: "Thank you! Your RSVP has been received.", fail: "Failed to send. Please try again.",
+            txtGuide: "Hotel stay (Mar 26-28 @ Maison Glad) & local travel guide prepared for you",
+            btnGuide: "📥 Download Jeju Travel Guide (PDF)"
+        },
+        ko: {
+            heroTitle: "나환택 & 장소담",
+            heroSub: "소중한 분들을 결혼식에 초대합니다",
+            titleDress: "— 드레스 코드 & 안내 —",
+            descDress: "베이지 / 샴페인 / 블랙&화이트 / 파스텔 수트<br><span style='font-size: 13.5px; color: #666666; font-weight: 300;'>(편안하고 마음에 드는 스타일로 입고 와주세요)</span>",
+            tipTitle: "💡 3월 말 제주도 날씨 팁",
+            tipDesc: "3월 말 제주는 예쁜 봄날씨이지만 바닷바람이 다소 쌀쌀할 수 있습니다. 따뜻하고 예쁜 자켓, 트렌치코트나 스카프를 함께 챙기시는 것을 추천합니다.",
+            titleDetails: "— 예식 안내 —",
+            lblDate: "일시", valDate: "2027년 3월 27일 토요일",
+            subHotelNotice: "※ 호텔 숙박은 3월 26일~28일 제공되며, 예식 전날(26일) 여유 있게 도착하셔서 주변을 둘러보시는 것을 추천합니다.",
+            lblLoc: "장소", valLoc: "대한민국 제주도 (Jeju Island)",
+            subNotice: "※ 상세 예식 장소 및 셔틀/비행 안내는 추후 개별적으로 연락드리겠습니다.",
+            finalMsgImg: "photo10.jpg",
+            titleGallery: "— 저희의 순간들 —",
+            swipeHint: "← 좌우로 스와이프하여 사진 보기 →",
+            titleRsvp: "— 참석 여부 전달 —",
+            lblName: "대표 참석자 성함 *",
+            lblCompanions: "동행자 성함 및 전달사항 *",
+            placeholderCompanions: "함께 오시는 동행자의 성함과 기타 참고사항(일정, 식사 관련 등)을 자유롭게 적어주세요.",
+            btnSubmit: "참석 응답 보내기", sending: "전송 중...",
+            success: "참석 응답이 잘 전달되었습니다! 제주에서 뵙겠습니다.", fail: "전송에 실패했습니다. 다시 시도해 주세요.",
+            txtGuide: "3월 26일~28일 메종글래드 제주 숙박 및 주변 맛집/볼거리 가이드",
+            btnGuide: "📥 가이드북 다운로드 받기 (PDF)"
+        }
+    };
+
+    let currentLang = 'zh';
+
+    function switchLang(lang, btnElement) {
+        currentLang = lang;
+        const t = i18n[lang];
+
+        document.documentElement.lang = lang;
+
+        document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+        if (btnElement) {
+            btnElement.classList.add('active');
+        }
+
+        document.getElementById('hero-title').innerText = t.heroTitle;
+        document.getElementById('hero-subtitle').innerText = t.heroSub;
+        document.getElementById('title-dress').innerText = t.titleDress;
+        document.getElementById('desc-dress').innerHTML = t.descDress;
+        document.getElementById('tip-title').innerText = t.tipTitle;
+        document.getElementById('tip-desc').innerText = t.tipDesc;
+        document.getElementById('title-details').innerText = t.titleDetails;
+        document.getElementById('lbl-date').innerText = t.lblDate;
+        document.getElementById('val-date').innerText = t.valDate;
+        document.getElementById('sub-hotel-notice').innerText = t.subHotelNotice;
+        document.getElementById('lbl-location').innerText = t.lblLoc;
+        document.getElementById('val-location').innerText = t.valLoc;
+        document.getElementById('sub-notice').innerText = t.subNotice;
+        
+        document.getElementById('final-msg-img').src = t.finalMsgImg;
+
+        document.getElementById('title-gallery').innerText = t.titleGallery;
+        document.getElementById('swipe-hint').innerText = t.swipeHint;
+        document.getElementById('title-rsvp').innerText = t.titleRsvp;
+        document.getElementById('lbl-name').innerText = t.lblName;
+        document.getElementById('lbl-companions').innerText = t.lblCompanions;
+        document.getElementById('guestMsg').placeholder = t.placeholderCompanions;
+        document.getElementById('btn-submit').innerText = t.btnSubmit;
+        document.getElementById('txt-guide').innerText = t.txtGuide;
+        document.getElementById('btn-guide').innerText = t.btnGuide;
+    }
+
+    /* EmailJS 초기화 (실제 PUBLIC_KEY로 교체) */
+    (function() { emailjs.init("lgb0ATrlVcxQQ9zZ7"); })();
+
+    function handleRSVP(event) {
+        event.preventDefault();
+        const t = i18n[currentLang];
+        const btn = document.getElementById('btn-submit');
+        btn.disabled = true; 
+        btn.innerText = t.sending;
+
+        const params = {
+            name: document.getElementById('guestName').value,
+            message: document.getElementById('guestMsg').value,
+            language: currentLang
+        };
+
+        /* EmailJS 전송 (실제 SERVICE_ID, TEMPLATE_ID로 교체) */
+        emailjs.send('service_c3uiqjm', 'template_ah9fkrp', params)
+            .then(function() {
+                alert(t.success);
+                document.getElementById('rsvpForm').reset();
+                btn.disabled = false; 
+                btn.innerText = t.btnSubmit;
+            }, function(error) {
+                alert(t.fail);
+                btn.disabled = false; 
+                btn.innerText = t.btnSubmit;
+            });
+    }
+</script>
+
+</body>
+</html>
