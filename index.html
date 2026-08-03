@@ -44,7 +44,7 @@
         }
 
         /* --------------------------------------------------
-           [기본 리셋 및 모바일 최적화 (滚动修复修正)]
+           [기본 리셋 및 모바일 최적화 (滚动与换行修复)]
         -------------------------------------------------- */
         * { 
             box-sizing: border-box; 
@@ -68,7 +68,8 @@
             -webkit-font-smoothing: antialiased; 
             -moz-osx-font-smoothing: grayscale;
             letter-spacing: -0.02em; 
-            word-break: keep-all; 
+            word-break: break-word;            /* 👈 修复：解决中文手机端不换行、超出屏幕的问题 */
+            overflow-wrap: break-word;
         }
         
         .container { 
@@ -124,17 +125,16 @@
             z-index: 100; 
         }
 
-        /* 👈 修改：固定按键尺寸，保持椭圆统一 */
         .lang-btn { 
             background: none; 
             border: 1px solid #D0C9BD; 
-            width: 88px;             /* 统一固定宽度 */
-            height: 32px;            /* 统一固定高度 */
-            padding: 0;              /* 取消可变内边距 */
-            display: inline-flex;    /* 居中对齐 */
+            width: 88px;              /* 统一固定宽度 */
+            height: 32px;             /* 统一固定高度 */
+            padding: 0;               /* 取消可变内边距 */
+            display: inline-flex;     /* 居中对齐 */
             align-items: center;
             justify-content: center;
-            border-radius: 20px;     /* 保持完整胶囊/椭圆外形 */
+            border-radius: 20px;      /* 保持完整胶囊/椭圆外形 */
             font-size: 13.5px; 
             margin: 0 3px; 
             color: #707070; 
@@ -717,6 +717,9 @@
         const t = i18n[lang];
 
         document.documentElement.lang = lang;
+
+        /* 👈 动态调整换行规则：韩文保持 word-break: keep-all; 中文/英文调整为 break-word */
+        document.body.style.wordBreak = (lang === 'ko') ? 'keep-all' : 'break-word';
 
         document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
         if (btnElement) {
