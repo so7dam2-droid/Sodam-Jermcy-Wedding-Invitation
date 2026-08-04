@@ -833,31 +833,44 @@
 
 </body>
 </html>
-// ... 你原来的所有 JS 代码 ...
-
-// --- 微信视频自动播放兼容 Hack (加在最底部) ---
+// --- 手机微信视频自动播放兼容 Hack ---
 document.addEventListener('DOMContentLoaded', () => {
-    // 请确保 id 名称与你 HTML 中 <video> 标签的 id 一致
     const video = document.getElementById('heroVideo') || document.querySelector('video');
 
     if (video) {
-        video.muted = true; // 微信要求必须静音才能自动播放
-        
-        // 尝试标准播放
-        const playPromise = video.play();
-        if (playPromise !== undefined) {
-            playPromise.catch(() => {});
-        }
+        // 1. 强行静音与属性设置（手机端播放的基础条件）
+        video.muted = true;
+        video.setAttribute('muted', '');
+        video.setAttribute('playsinline', '');
+        video.setAttribute('webkit-playsinline', '');
 
-        // 触发微信内核的播放接口
+        const startPlay = () => {
+            video.play().catch(err => {
+                console.log("微信视频自动播放被拦截:", err);
+            });
+        };
+
+        // 2. 正常尝试播放
+        startPlay();
+
+        // 3. 针对 iOS/Android 微信内核环境唤醒
         if (typeof WeixinJSBridge === "object" && typeof WeixinJSBridge.invoke === "function") {
             WeixinJSBridge.invoke('getNetworkType', {}, () => {
-                video.play();
+                startPlay();
             }, false);
         } else {
             document.addEventListener("WeixinJSBridgeReady", () => {
-                video.play();
+                startPlay();
             }, false);
         }
+
+        // 4. 兜底方案：手机用户在页面上发生任意第一次触摸/点击时，立刻解锁视频播放
+        const unlockVideo = () => {
+            startPlay();
+            document.removeEventListener('touchstart', unlockVideo);
+            document.removeEventListener('click', unlockVideo);
+        };
+        document.addEventListener('touchstart', unlockVideo, { once: true });
+        document.addEventListener('click', unlockVideo, { once: true });
     }
 });
