@@ -833,3 +833,31 @@
 
 </body>
 </html>
+// ... 你原来的所有 JS 代码 ...
+
+// --- 微信视频自动播放兼容 Hack (加在最底部) ---
+document.addEventListener('DOMContentLoaded', () => {
+    // 请确保 id 名称与你 HTML 中 <video> 标签的 id 一致
+    const video = document.getElementById('heroVideo') || document.querySelector('video');
+
+    if (video) {
+        video.muted = true; // 微信要求必须静音才能自动播放
+        
+        // 尝试标准播放
+        const playPromise = video.play();
+        if (playPromise !== undefined) {
+            playPromise.catch(() => {});
+        }
+
+        // 触发微信内核的播放接口
+        if (typeof WeixinJSBridge === "object" && typeof WeixinJSBridge.invoke === "function") {
+            WeixinJSBridge.invoke('getNetworkType', {}, () => {
+                video.play();
+            }, false);
+        } else {
+            document.addEventListener("WeixinJSBridgeReady", () => {
+                video.play();
+            }, false);
+        }
+    }
+});
