@@ -531,7 +531,7 @@
     <!-- 5. 게스트에게 드리는 편지 -->
     <div class="section" style="padding-top: 0px;">
         <div class="final-message-card">
-            <img id="final-msg-img" src="photo8.webp" alt="Final Heartfelt Message">
+            <img id="final-msg-img" src="" alt="Final Heartfelt Message">
         </div>
     </div>
 
@@ -805,26 +805,26 @@
 /* --------------------------------------------------
        [按需加载 & 语言选择控制]
     -------------------------------------------------- */
-    function enterSite(lang) {
-        // 1. 隐藏语言选择遮罩层
-        const overlay = document.getElementById('langSelectOverlay');
-        if (overlay) overlay.style.display = 'none';
+function enterSite(lang) {
+    // 1. 隐藏语言选择遮罩层
+    const overlay = document.getElementById('langSelectOverlay');
+    if (overlay) overlay.style.display = 'none';
 
-        // 2. 找到对应语言的页面与按钮元素
-        const langBtns = document.querySelectorAll('.lang-btn');
-        let targetBtn = null;
-        if(lang === 'zh') targetBtn = langBtns[0];
-        if(lang === 'en') targetBtn = langBtns[1];
-        if(lang === 'ko') targetBtn = langBtns[2];
+    // 2. 找到对应语言的页面与按钮元素
+    const langBtns = document.querySelectorAll('.lang-btn');
+    let targetBtn = null;
+    if(lang === 'zh') targetBtn = langBtns[0];
+    if(lang === 'en') targetBtn = langBtns[1];
+    if(lang === 'ko') targetBtn = langBtns[2];
 
-        // 3. 执行语言切换（仅加载该语言所需的图片与文字）
-        switchLang(lang, targetBtn);
+    // 3. 执行语言切换（仅加载该语言所需的图片与文字）
+    switchLang(lang, targetBtn);
 
-        // 4. 用户点击后，立刻播放背景音乐（无缝播放）
-        if (typeof playAudioOnce === 'function') {
-            playAudioOnce();
-        }
+    // 4. 用户点击后，立刻播放背景音乐（无缝播放）
+    if (typeof playAudioOnce === 'function') {
+        playAudioOnce();
     }
+}
 </script>
 
 </body>
