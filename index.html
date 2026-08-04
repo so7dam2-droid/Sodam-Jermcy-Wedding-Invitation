@@ -560,19 +560,20 @@
         </div>
     </div>
 
-    <!-- 8. 사진집 (Photo 1~4 슬라이드) -->
-    <div class="section">
-        <div class="section-title" id="title-gallery">— OUR MOMENTS —</div>
-        <div class="gallery-container">
-            <div class="gallery-slider">
-                <div class="slide"><img src="photo1.webp" alt="Photo 1"></div>
-                <div class="slide"><img src="photo2.webp" alt="Photo 2"></div>
-                <div class="slide"><img src="photo3.webp" alt="Photo 3"></div>
-                <div class="slide"><img src="photo4.webp" alt="Photo 4"></div>
-            </div>
-            <div class="swipe-hint" id="swipe-hint">← 左右滑动查看照片 / Swipe →</div>
+<!-- 8. 사진집 (Photo 1~4 슬라이드) -->
+<div class="section">
+    <div class="section-title" id="title-gallery">— OUR MOMENTS —</div>
+    <div class="gallery-container">
+        <div class="gallery-slider">
+            <!-- 给这里的 4 张图片加上 loading="lazy" -->
+            <div class="slide"><img src="photo1.webp" alt="Photo 1" loading="lazy" onerror="handleImageError(this, 'Photo 1')"></div>
+            <div class="slide"><img src="photo2.webp" alt="Photo 2" loading="lazy" onerror="handleImageError(this, 'Photo 2')"></div>
+            <div class="slide"><img src="photo3.webp" alt="Photo 3" loading="lazy" onerror="handleImageError(this, 'Photo 3')"></div>
+            <div class="slide"><img src="photo4.webp" alt="Photo 4" loading="lazy" onerror="handleImageError(this, 'Photo 4')"></div>
         </div>
+        <div class="swipe-hint" id="swipe-hint">← 左右滑动查看照片 / Swipe →</div>
     </div>
+</div>
 
     <!-- 9. RSVP & Guidebook -->
     <div class="section">
