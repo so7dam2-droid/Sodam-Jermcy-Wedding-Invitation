@@ -6,22 +6,20 @@
     <title>Wedding Invitation</title>
     
     <!-- 视频与三封信图片的预加载 (Preload) -->
-    <link rel="preload" as="video" href="video.mp4" type="video/mp4" fetchpriority="high">
-    <link rel="preload" as="image" href="photo8.webp">
-    <link rel="preload" as="image" href="photo9.webp">
-    <link rel="preload" as="image" href="photo10.webp">
+    <link rel="preload" as="video" href="https://sodam-wedding-invitation-2026.oss-cn-guangzhou.aliyuncs.com/video.mp4" type="video/mp4" fetchpriority="high">
+    <link rel="preload" as="image" href="https://sodam-wedding-invitation-2026.oss-cn-guangzhou.aliyuncs.com/photo8.webp">
+    <link rel="preload" as="image" href="https://sodam-wedding-invitation-2026.oss-cn-guangzhou.aliyuncs.com/photo9.webp">
+    <link rel="preload" as="image" href="https://sodam-wedding-invitation-2026.oss-cn-guangzhou.aliyuncs.com/photo10.webp">
 
     <!-- EmailJS SDK -->
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <style>
-      /* CSS 保持不变 */
         /* --------------------------------------------------
            [다국어 커스텀 폰트 정의]
         -------------------------------------------------- */
         @font-face {
             font-family: 'KoreanFont';
-            src: url('font-ko.woff2') format('woff2'),
-                 url('font-ko.ttf') format('truetype');
+            src: url('https://sodam-wedding-invitation-2026.oss-cn-guangzhou.aliyuncs.com/font-ko.woff2') format('woff2');
             font-weight: normal;
             font-style: normal;
             font-display: swap;
@@ -31,8 +29,7 @@
 
         @font-face {
             font-family: 'ChineseFont';
-            src: url('font-zh.woff2') format('woff2'),
-                 url('font-zh.ttf') format('truetype');
+            src: url('https://sodam-wedding-invitation-2026.oss-cn-guangzhou.aliyuncs.com/font-zh.woff2') format('woff2');
             font-weight: normal;
             font-style: normal;
             font-display: swap;
@@ -42,8 +39,7 @@
 
         @font-face {
             font-family: 'EnglishFont';
-            src: url('font-en.woff2') format('woff2'),
-                 url('font-en.ttf') format('truetype');
+            src: url('https://sodam-wedding-invitation-2026.oss-cn-guangzhou.aliyuncs.com/font-en.woff2') format('woff2');
             font-weight: normal;
             font-style: normal;
             font-display: swap;
@@ -485,7 +481,7 @@
 
 <!-- BGM -->
 <audio id="bgm" loop preload="auto">
-    <source src="music.mp3" type="audio/mpeg">
+    <source src="https://sodam-wedding-invitation-2026.oss-cn-guangzhou.aliyuncs.com/music.mp3" type="audio/mpeg">
 </audio>
 
 <button class="bgm-btn" id="bgmBtn" aria-label="Toggle BGM" onclick="toggleBGM(event)">🎵</button>
@@ -521,7 +517,7 @@
     <!-- 3. 메인 초대 포스터 -->
     <div class="section" style="padding-top: 10px; padding-bottom: 20px;">
         <div class="welcome-card">
-            <img src="photo7.webp" alt="Welcome Photo">
+            <img src="https://sodam-wedding-invitation-2026.oss-cn-guangzhou.aliyuncs.com/photo7.webp" alt="Welcome Photo">
         </div>
     </div>
 
@@ -553,15 +549,14 @@
         </div>
     </div>
 
-    <!-- 6. 👈 调整位置后的 Video 模块（位于 Dress Code 与 Details 之间） -->
-<!-- 寻找并修改为如下代码 -->
-<div class="section" style="padding-top: 10px; padding-bottom: 10px;">
-    <div class="hero-gif-container">
-        <video id="heroVideo" autoplay loop muted playsinline webkit-playsinline preload="auto">
-            <source src="video.mp4" type="video/mp4">
-        </video>
+    <!-- 6. Video 模块 -->
+    <div class="section" style="padding-top: 10px; padding-bottom: 10px;">
+        <div class="hero-gif-container">
+            <video id="heroVideo" autoplay loop muted playsinline webkit-playsinline preload="auto">
+                <source src="https://sodam-wedding-invitation-2026.oss-cn-guangzhou.aliyuncs.com/video.mp4" type="video/mp4">
+            </video>
+        </div>
     </div>
-</div>
 
     <!-- 7. Wedding Details -->
     <div class="section">
@@ -585,10 +580,10 @@
         <div class="section-title" id="title-gallery">— OUR MOMENTS —</div>
         <div class="gallery-container">
             <div class="gallery-slider">
-                <div class="slide"><img src="photo1.webp" alt="Photo 1" loading="lazy"></div>
-                <div class="slide"><img src="photo2.webp" alt="Photo 2" loading="lazy"></div>
-                <div class="slide"><img src="photo3.webp" alt="Photo 3" loading="lazy"></div>
-                <div class="slide"><img src="photo4.webp" alt="Photo 4" loading="lazy"></div>
+                <div class="slide"><img src="https://sodam-wedding-invitation-2026.oss-cn-guangzhou.aliyuncs.com/photo1.webp" alt="Photo 1" loading="lazy"></div>
+                <div class="slide"><img src="https://sodam-wedding-invitation-2026.oss-cn-guangzhou.aliyuncs.com/photo2.webp" alt="Photo 2" loading="lazy"></div>
+                <div class="slide"><img src="https://sodam-wedding-invitation-2026.oss-cn-guangzhou.aliyuncs.com/photo3.webp" alt="Photo 3" loading="lazy"></div>
+                <div class="slide"><img src="https://sodam-wedding-invitation-2026.oss-cn-guangzhou.aliyuncs.com/photo4.webp" alt="Photo 4" loading="lazy"></div>
             </div>
             <div class="swipe-hint" id="swipe-hint">← 左右滑动查看照片 / Swipe →</div>
         </div>
@@ -611,7 +606,7 @@
 
         <div class="guide-box">
             <p id="txt-guide">为您准备了 3月26日-28日 Maison Glad 酒店住宿安排与周边吃喝玩乐指南</p>
-            <a href="jeju_guide.pdf" download class="guide-btn" id="btn-guide">📥 济州岛指南 & 酒店导览 (PDF)</a>
+            <a href="https://sodam-wedding-invitation-2026.oss-cn-guangzhou.aliyuncs.com/jeju_guide.pdf" download class="guide-btn" id="btn-guide">📥 济州岛指南 & 酒店导览 (PDF)</a>
         </div>
     </div>
 
@@ -669,7 +664,7 @@
             subHotelNotice: "※ 酒店行程为 3月26日–28日，建议您提前一天（26日）抵达，享受一段悠闲的周边时光。",
             lblLoc: "地点", valLoc: "韩国 · 济州岛 (Jeju Island)",
             subNotice: "※ 具体的婚礼详细地址与接驳安排，后续将单独为您联系通知。",
-            finalMsgImg: "photo8.webp",
+            finalMsgImg: "https://sodam-wedding-invitation-2026.oss-cn-guangzhou.aliyuncs.com/photo8.webp",
             titleGallery: "— 精彩瞬间 —",
             swipeHint: "← 左右滑动查看照片 →",
             titleRsvp: "— 出席回复 —",
@@ -693,7 +688,7 @@
             subHotelNotice: "※ Hotel accommodations are provided from March 26 to 28. We recommend arriving a day early on the 26th to relax and explore nearby.",
             lblLoc: "LOCATION", valLoc: "Jeju Island, Korea",
             subNotice: "※ Detailed venue address and transport arrangements will be shared with you individually soon.",
-            finalMsgImg: "photo9.webp",
+            finalMsgImg: "https://sodam-wedding-invitation-2026.oss-cn-guangzhou.aliyuncs.com/photo9.webp",
             titleGallery: "— OUR MOMENTS —",
             swipeHint: "← Swipe to view photos →",
             titleRsvp: "— RSVP —",
@@ -717,7 +712,7 @@
             subHotelNotice: "※ 호텔 숙박은 3월 26일~28일 제공되며, 예식 전날(26일) 여유 있게 도착하셔서 주변을 둘러보시는 것을 추천합니다.",
             lblLoc: "장소", valLoc: "대한민국 제주도 (Jeju Island)",
             subNotice: "※ 상세 예식 장소 및 셔틀/비행 안내는 추후 개별적으로 연락드리겠습니다.",
-            finalMsgImg: "photo10.webp",
+            finalMsgImg: "https://sodam-wedding-invitation-2026.oss-cn-guangzhou.aliyuncs.com/photo10.webp",
             titleGallery: "— 저희의 순간들 —",
             swipeHint: "← 좌우로 스와이프하여 사진 보기 →",
             titleRsvp: "— 참석 여부 전달 —",
@@ -759,11 +754,10 @@
         document.getElementById('val-location').innerText = t.valLoc;
         document.getElementById('sub-notice').innerText = t.subNotice;
         
-// 修改后：直接使用预加载过的静态路径，瞬间读取本地缓存
-const finalImg = document.getElementById('final-msg-img');
-if (finalImg && t && t.finalMsgImg) {
-    finalImg.src = t.finalMsgImg;
-}
+        const finalImg = document.getElementById('final-msg-img');
+        if (finalImg && t && t.finalMsgImg) {
+            finalImg.src = t.finalMsgImg;
+        }
 
         document.getElementById('title-gallery').innerText = t.titleGallery;
         document.getElementById('swipe-hint').innerText = t.swipeHint;
@@ -821,7 +815,7 @@ if (finalImg && t && t.finalMsgImg) {
         }
     }
 
-const heroVideo = document.getElementById('heroVideo');
+    const heroVideo = document.getElementById('heroVideo');
     if (heroVideo) {
         heroVideo.addEventListener('canplay', () => {
             heroVideo.play().catch(err => {
@@ -829,7 +823,6 @@ const heroVideo = document.getElementById('heroVideo');
             });
         });
 
-        // 页面不可见切回时重新尝试播放
         document.addEventListener('visibilitychange', () => {
             if (!document.hidden && heroVideo.paused) {
                 heroVideo.play().catch(() => {});
