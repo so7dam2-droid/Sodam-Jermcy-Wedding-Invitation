@@ -744,7 +744,11 @@
         document.getElementById('val-location').innerText = t.valLoc;
         document.getElementById('sub-notice').innerText = t.subNotice;
         
-        document.getElementById('final-msg-img').src = t.finalMsgImg;
+        const finalImg = document.getElementById('final-msg-img');
+        if (finalImg && t && t.finalMsgImg) {
+            // 💡 关键修改：加上时间戳，强制浏览器刷新，不使用缓存
+            finalImg.src = t.finalMsgImg + '?v=' + new Date().getTime();
+        }
 
         document.getElementById('title-gallery').innerText = t.titleGallery;
         document.getElementById('swipe-hint').innerText = t.swipeHint;
