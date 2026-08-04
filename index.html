@@ -2,7 +2,7 @@
 <html lang="zh">
 <head>
     <meta charset="UTF-8">
-<link rel="preload" as="video" href="video.mp4" type="video/mp4" fetchpriority="high">
+    <link rel="preload" as="video" href="video.mp4" type="video/mp4" fetchpriority="high">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Wedding Invitation</title>
     <!-- EmailJS SDK -->
@@ -153,18 +153,17 @@
         }
 
         /* --------------------------------------------------
-           [최상단 GIF / Video 히어로 배너]
+           [Video 배너]
         -------------------------------------------------- */
         .hero-gif-container { 
             width: 58%; 
             max-width: 250px;
-            margin: 32px auto 0;
+            margin: 10px auto 0;
             border-radius: 16px;
             overflow: hidden; 
             background: #EAE6DF; 
             box-shadow: 0 8px 20px rgba(0,0,0,0.04);
         }
-        .hero-gif-container img, 
         .hero-gif-container video { 
             width: 100%; 
             height: auto; 
@@ -269,21 +268,21 @@
             margin: 26px 0 30px; 
             flex-wrap: wrap; 
         }
-.color-swatch { 
-    width: 48px;                   /* 1. 稍微放大一点圆圈 */
-    height: 48px; 
-    border-radius: 50%; 
-    display: flex; 
-    align-items: center; 
-    justify-content: center; 
-    font-size: 8.5px;              /* 2. 微调字号，刚好装下 Champagne */
-    color: #111; 
-    border: 1px solid rgba(0,0,0,0.08); 
-    font-weight: 500; 
-    box-shadow: 0 2px 6px rgba(0,0,0,0.03);
-    word-break: keep-all;          /* 3. 核心：禁止单词断行 */
-    white-space: nowrap;           /* 4. 核心：强制一行显示 */
-}
+        .color-swatch { 
+            width: 48px; 
+            height: 48px; 
+            border-radius: 50%; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            font-size: 8.5px; 
+            color: #111; 
+            border: 1px solid rgba(0,0,0,0.08); 
+            font-weight: 500; 
+            box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+            word-break: keep-all; 
+            white-space: nowrap; 
+        }
         
         .weather-tip-box { 
             background: #FBF9F7; 
@@ -485,11 +484,10 @@
 <button class="bgm-btn" id="bgmBtn" aria-label="Toggle BGM" onclick="toggleBGM(event)">🎵</button>
 
 <div class="container">
-<!-- 1. 优先展示：语言选择入口遮罩层 -->
+    <!-- 语言选择入口遮罩层 -->
     <div id="langSelectOverlay" style="position: fixed; top:0; left:0; width:100%; height:100%; background: #FAF9F6; z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 20px;">
         <h2 style="font-size: 20px; color: #111; font-weight: 400; margin-bottom: 8px;">Wedding Invitation</h2>
-        <p style="font-size: 13.5px; color: #888; margin-bottom: 30px;">Please select your language / 请选择语言<br>언어를 선택해 주세요
-</p>
+        <p style="font-size: 13.5px; color: #888; margin-bottom: 30px;">Please select your language / 请选择语言<br>언어를 선택해 주세요</p>
         
         <div style="display: flex; flex-direction: column; gap: 14px; width: 200px;">
             <button onclick="enterSite('zh')" style="padding: 12px; background: #A88B74; color: #fff; border: none; border-radius: 25px; font-size: 15px; cursor: pointer; box-shadow: 0 4px 12px rgba(168,139,116,0.2);">中文</button>
@@ -505,15 +503,7 @@
         <button class="lang-btn" onclick="switchLang('ko', this)">한국어</button>
     </div>
 
-    <!-- 2. 최상단 GIF/비디오 배너 -->
-    <div class="hero-gif-container">
-        <img src="hero.gif" alt="Wedding Hero GIF" onerror="this.style.display='none'; document.getElementById('heroVideo').style.display='block';">
-        <video id="heroVideo" autoplay loop muted playsinline style="display:none;">
-            <source src="video.mp4" type="video/mp4">
-        </video>
-    </div>
-
-    <!-- 3. 메인 타이틀 -->
+    <!-- 2. 메인 타이틀 -->
     <div class="section hero">
         <div class="hero-content">
             <h1 id="hero-title">罗桓泽 & 张昭澹</h1>
@@ -521,21 +511,21 @@
         </div>
     </div>
 
-    <!-- 4. 메인 초대 포스터 -->
+    <!-- 3. 메인 초대 포스터 -->
     <div class="section" style="padding-top: 10px; padding-bottom: 20px;">
         <div class="welcome-card">
             <img src="photo7.webp" alt="Welcome Photo">
         </div>
     </div>
 
-    <!-- 5. 게스트에게 드리는 편지 -->
+    <!-- 4. 게스트에게 드리는 편지 -->
     <div class="section" style="padding-top: 0px;">
         <div class="final-message-card">
             <img id="final-msg-img" src="" alt="Final Heartfelt Message">
         </div>
     </div>
 
-    <!-- 6. Dress Code & Weather TIPS -->
+    <!-- 5. Dress Code & Weather TIPS -->
     <div class="section">
         <div class="section-title" id="title-dress">— DRESS CODE & TIPS —</div>
         <div class="dress-code-box">
@@ -556,6 +546,15 @@
         </div>
     </div>
 
+    <!-- 6. 👈 调整位置后的 Video 模块（位于 Dress Code 与 Details 之间） -->
+    <div class="section" style="padding-top: 10px; padding-bottom: 10px;">
+        <div class="hero-gif-container">
+            <video id="heroVideo" autoplay loop muted playsinline preload="auto" poster="photo7.webp">
+                <source src="video.mp4" type="video/mp4">
+            </video>
+        </div>
+    </div>
+
     <!-- 7. Wedding Details -->
     <div class="section">
         <div class="section-title" id="title-details">— WEDDING DETAILS —</div>
@@ -573,20 +572,19 @@
         </div>
     </div>
 
-<!-- 8. 사진집 (Photo 1~4 슬라이드) -->
-<div class="section">
-    <div class="section-title" id="title-gallery">— OUR MOMENTS —</div>
-    <div class="gallery-container">
-        <div class="gallery-slider">
-            <!-- 给这里的 4 张图片加上 loading="lazy" -->
-            <div class="slide"><img src="photo1.webp" alt="Photo 1" loading="lazy" onerror="handleImageError(this, 'Photo 1')"></div>
-            <div class="slide"><img src="photo2.webp" alt="Photo 2" loading="lazy" onerror="handleImageError(this, 'Photo 2')"></div>
-            <div class="slide"><img src="photo3.webp" alt="Photo 3" loading="lazy" onerror="handleImageError(this, 'Photo 3')"></div>
-            <div class="slide"><img src="photo4.webp" alt="Photo 4" loading="lazy" onerror="handleImageError(this, 'Photo 4')"></div>
+    <!-- 8. 사진집 (Photo 1~4 슬라이드) -->
+    <div class="section">
+        <div class="section-title" id="title-gallery">— OUR MOMENTS —</div>
+        <div class="gallery-container">
+            <div class="gallery-slider">
+                <div class="slide"><img src="photo1.webp" alt="Photo 1" loading="lazy"></div>
+                <div class="slide"><img src="photo2.webp" alt="Photo 2" loading="lazy"></div>
+                <div class="slide"><img src="photo3.webp" alt="Photo 3" loading="lazy"></div>
+                <div class="slide"><img src="photo4.webp" alt="Photo 4" loading="lazy"></div>
+            </div>
+            <div class="swipe-hint" id="swipe-hint">← 左右滑动查看照片 / Swipe →</div>
         </div>
-        <div class="swipe-hint" id="swipe-hint">← 左右滑动查看照片 / Swipe →</div>
     </div>
-</div>
 
     <!-- 9. RSVP & Guidebook -->
     <div class="section">
@@ -612,7 +610,6 @@
 </div>
 
 <script>
-    /* 스크롤 시 부드러운 페이드인 애니메이션 (IntersectionObserver) */
     document.addEventListener("DOMContentLoaded", () => {
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
@@ -733,8 +730,6 @@
         const t = i18n[lang];
 
         document.documentElement.lang = lang;
-
-        /* 👈 动态调整换行规则：韩文保持 word-break: keep-all; 中文/英文调整为 break-word */
         document.body.style.wordBreak = (lang === 'ko') ? 'keep-all' : 'break-word';
 
         document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
@@ -758,7 +753,6 @@
         
         const finalImg = document.getElementById('final-msg-img');
         if (finalImg && t && t.finalMsgImg) {
-            // 💡 关键修改：加上时间戳，强制浏览器刷新，不使用缓存
             finalImg.src = t.finalMsgImg + '?v=' + new Date().getTime();
         }
 
@@ -773,7 +767,6 @@
         document.getElementById('btn-guide').innerText = t.btnGuide;
     }
 
-    /* EmailJS 초기화 (실제 PUBLIC_KEY로 교체) */
     (function() { emailjs.init("lgb0ATrlVcxQQ9zZ7"); })();
 
     function handleRSVP(event) {
@@ -789,7 +782,6 @@
             language: currentLang
         };
 
-        /* EmailJS 전송 (실제 SERVICE_ID, TEMPLATE_ID로 교체) */
         emailjs.send('service_c3uiqjm', 'template_ah9fkrp', params)
             .then(function() {
                 alert(t.success);
@@ -802,29 +794,23 @@
                 btn.innerText = t.btnSubmit;
             });
     }
-/* --------------------------------------------------
-       [按需加载 & 语言选择控制]
-    -------------------------------------------------- */
-function enterSite(lang) {
-    // 1. 隐藏语言选择遮罩层
-    const overlay = document.getElementById('langSelectOverlay');
-    if (overlay) overlay.style.display = 'none';
 
-    // 2. 找到对应语言的页面与按钮元素
-    const langBtns = document.querySelectorAll('.lang-btn');
-    let targetBtn = null;
-    if(lang === 'zh') targetBtn = langBtns[0];
-    if(lang === 'en') targetBtn = langBtns[1];
-    if(lang === 'ko') targetBtn = langBtns[2];
+    function enterSite(lang) {
+        const overlay = document.getElementById('langSelectOverlay');
+        if (overlay) overlay.style.display = 'none';
 
-    // 3. 执行语言切换（仅加载该语言所需的图片与文字）
-    switchLang(lang, targetBtn);
+        const langBtns = document.querySelectorAll('.lang-btn');
+        let targetBtn = null;
+        if(lang === 'zh') targetBtn = langBtns[0];
+        if(lang === 'en') targetBtn = langBtns[1];
+        if(lang === 'ko') targetBtn = langBtns[2];
 
-    // 4. 用户点击后，立刻播放背景音乐（无缝播放）
-    if (typeof playAudioOnce === 'function') {
-        playAudioOnce();
+        switchLang(lang, targetBtn);
+
+        if (typeof playAudioOnce === 'function') {
+            playAudioOnce();
+        }
     }
-}
 </script>
 
 </body>
