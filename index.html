@@ -554,13 +554,14 @@
     </div>
 
     <!-- 6. 👈 调整位置后的 Video 模块（位于 Dress Code 与 Details 之间） -->
-    <div class="section" style="padding-top: 10px; padding-bottom: 10px;">
-        <div class="hero-gif-container">
-            <video id="heroVideo" autoplay loop muted playsinline preload="auto" poster="photo7.webp">
-                <source src="video.mp4" type="video/mp4">
-            </video>
-        </div>
+<!-- 寻找并修改为如下代码 -->
+<div class="section" style="padding-top: 10px; padding-bottom: 10px;">
+    <div class="hero-gif-container">
+        <video id="heroVideo" autoplay loop muted playsinline webkit-playsinline preload="auto">
+            <source src="video.mp4" type="video/mp4">
+        </video>
     </div>
+</div>
 
     <!-- 7. Wedding Details -->
     <div class="section">
@@ -818,6 +819,22 @@ if (finalImg && t && t.finalMsgImg) {
         if (typeof playAudioOnce === 'function') {
             playAudioOnce();
         }
+    }
+
+const heroVideo = document.getElementById('heroVideo');
+    if (heroVideo) {
+        heroVideo.addEventListener('canplay', () => {
+            heroVideo.play().catch(err => {
+                console.log("Video play deferred:", err);
+            });
+        });
+
+        // 页面不可见切回时重新尝试播放
+        document.addEventListener('visibilitychange', () => {
+            if (!document.hidden && heroVideo.paused) {
+                heroVideo.play().catch(() => {});
+            }
+        });
     }
 </script>
 
