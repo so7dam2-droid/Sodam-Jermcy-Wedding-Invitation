@@ -2,12 +2,19 @@
 <html lang="zh">
 <head>
     <meta charset="UTF-8">
-    <link rel="preload" as="video" href="video.mp4" type="video/mp4" fetchpriority="high">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Wedding Invitation</title>
+    
+    <!-- 视频与三封信图片的预加载 (Preload) -->
+    <link rel="preload" as="video" href="video.mp4" type="video/mp4" fetchpriority="high">
+    <link rel="preload" as="image" href="photo8.webp">
+    <link rel="preload" as="image" href="photo9.webp">
+    <link rel="preload" as="image" href="photo10.webp">
+
     <!-- EmailJS SDK -->
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <style>
+      /* CSS 保持不变 */
         /* --------------------------------------------------
            [다국어 커스텀 폰트 정의]
         -------------------------------------------------- */
@@ -751,10 +758,11 @@
         document.getElementById('val-location').innerText = t.valLoc;
         document.getElementById('sub-notice').innerText = t.subNotice;
         
-        const finalImg = document.getElementById('final-msg-img');
-        if (finalImg && t && t.finalMsgImg) {
-            finalImg.src = t.finalMsgImg + '?v=' + new Date().getTime();
-        }
+// 修改后：直接使用预加载过的静态路径，瞬间读取本地缓存
+const finalImg = document.getElementById('final-msg-img');
+if (finalImg && t && t.finalMsgImg) {
+    finalImg.src = t.finalMsgImg;
+}
 
         document.getElementById('title-gallery').innerText = t.titleGallery;
         document.getElementById('swipe-hint').innerText = t.swipeHint;
