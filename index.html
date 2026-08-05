@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Wedding Invitation</title>
     
-    <!-- 视频与三封信图片的预加载 (Preload) -->
-    <link rel="preload" as="video" href="https://sodam-wedding-invitation-2026.oss-cn-guangzhou.aliyuncs.com/video.mp4" type="video/mp4" fetchpriority="high">
+    <!-- WebP 动画与三封信图片的预加载 (Preload) -->
+    <link rel="preload" as="image" href="https://sodam-wedding-invitation-2026.oss-cn-guangzhou.aliyuncs.com/video.webp">
     <link rel="preload" as="image" href="https://sodam-wedding-invitation-2026.oss-cn-guangzhou.aliyuncs.com/photo8.webp">
     <link rel="preload" as="image" href="https://sodam-wedding-invitation-2026.oss-cn-guangzhou.aliyuncs.com/photo9.webp">
     <link rel="preload" as="image" href="https://sodam-wedding-invitation-2026.oss-cn-guangzhou.aliyuncs.com/photo10.webp">
@@ -156,7 +156,7 @@
         }
 
         /* --------------------------------------------------
-           [Video 배너]
+           [Hero Banner (WebP 容器)]
         -------------------------------------------------- */
         .hero-gif-container { 
             width: 58%; 
@@ -167,7 +167,7 @@
             background: #EAE6DF; 
             box-shadow: 0 8px 20px rgba(0,0,0,0.04);
         }
-        .hero-gif-container video { 
+        .hero-gif-container img { 
             width: 100%; 
             height: auto; 
             display: block; 
@@ -549,12 +549,10 @@
         </div>
     </div>
 
-    <!-- 6. Video 模块 -->
+    <!-- 6. WebP 动态展示模块 -->
     <div class="section" style="padding-top: 10px; padding-bottom: 10px;">
         <div class="hero-gif-container">
-            <video id="heroVideo" autoplay loop muted playsinline webkit-playsinline preload="auto">
-                <source src="https://sodam-wedding-invitation-2026.oss-cn-guangzhou.aliyuncs.com/video.mp4" type="video/mp4">
-            </video>
+            <img id="heroVideo" src="https://sodam-wedding-invitation-2026.oss-cn-guangzhou.aliyuncs.com/video.webp" alt="Hero Animation">
         </div>
     </div>
 
@@ -813,21 +811,6 @@
         if (typeof playAudioOnce === 'function') {
             playAudioOnce();
         }
-    }
-
-    const heroVideo = document.getElementById('heroVideo');
-    if (heroVideo) {
-        heroVideo.addEventListener('canplay', () => {
-            heroVideo.play().catch(err => {
-                console.log("Video play deferred:", err);
-            });
-        });
-
-        document.addEventListener('visibilitychange', () => {
-            if (!document.hidden && heroVideo.paused) {
-                heroVideo.play().catch(() => {});
-            }
-        });
     }
 </script>
 
